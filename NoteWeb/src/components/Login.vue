@@ -9,24 +9,25 @@
 
 <template>
 <!-- todo: recode verification function -->
-<div class="cardcontainer">
+<div class="container">
+  <div class="cardcontainer">
   <div class="box login">
-    <div class="form-content" :rules="rules2">
+    <div class="form-content">
       <div class="avtar">
         <div class="pic"><img src="../assets/1.jpg" alt=""></div>
       </div>
       <h1>Welcome back</h1>
-      <form action="#" class="form"  ref="ruleForm2" :model="ruleForm2" :rules="rules2">
+      <form action="#" class="form"  ref="ruleForm2" :model="ruleForm2" >
           <div>
             <i class="fa fa-user-o"></i>
-            <input type="text" placeholder="username" v-model="ruleForm2.UserName">
+            <input type="text" placeholder="username" v-model="ruleForm2.UserName" autocomplete="off">
           </div>
           <div>
             <i class="fa fa-key"></i>
-            <input type="password" placeholder="password" v-model="ruleForm2.password">
+            <input type="password" placeholder="password" v-model="ruleForm2.password" autocomplete="off">
           </div>
           <div class="btn">
-            <button  @click="submitForm()">login</button>
+            <button  @click="submitForm">login</button>
           </div>
       </form>
       <p class="btn-something">
@@ -51,7 +52,7 @@
         </div>
         <div>
           <i class="fa fa-key"></i>
-          <input type="password" placeholder="password">
+          <input type="password" placeholder="password"  autocomplete="on">
         </div>
         <div class="btn">
           <button>signup</button>
@@ -63,9 +64,22 @@
     </div>
   </div>
 </div>
+
+</div>
+
 </template>
 
-<style >
+<style>
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.container {
+  background-color: #f0f5f5;
+}
+
 .cardcontainer {
     position: absolute;
     top: 50%;
@@ -246,7 +260,6 @@ export default {
 
     let loginbtn = document.querySelector(".loginbtn");
     let signupbtn = document.querySelector(".signupbtn");
-    console.log(signupbtn)
 
     // let user = document.querySelector(".head");
     // 点击sign up/sign in之后，翻转两个形成连续效果
@@ -265,8 +278,8 @@ export default {
   methods: {
     // 提交
     submitForm() {
+    let me = this;
     if (this.ruleForm2.UserName && this.ruleForm2.password) {
-      var me = this;
       axios({
         method: 'post',
         url: '/MyUser/LoginIndex',
@@ -275,12 +288,13 @@ export default {
       }).then(function(res) {
         if (res.data.Status === 200) {
           localStorage.setItem('loginInfo', JSON.stringify(res.data));
-          me.$router.push({path: '/home'});
+          me.$router.push({path: '/Home'});
         } else {
           alert("error submit2!");
         }
       });
     }
+    console.log('test')
     this.errors = [];
     if (!this.ruleForm2.UserName) {
       this.errors.push('Name required');

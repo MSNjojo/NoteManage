@@ -46,6 +46,8 @@ router.beforeEach((to, from, next) => {
   if (to.meta.auth) {
     // 如果token存在直接跳转
     if (token) {
+      console.log('token')
+      // 需要指定成功跳转的路由
       next()
     } else {
       // 否则跳转到login登录页面
